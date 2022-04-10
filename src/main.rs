@@ -1,74 +1,12 @@
+mod types;
 
-use serde::{self, Deserialize};
 use reqwasm::http::Request;
 use reqwasm::Error;
 use wasm_bindgen_futures::spawn_local;
 use yew::prelude::*;
+use crate::types::*;
 
 const ROOT_URL: &str = "http://0.0.0.0:1317";
-
-#[derive(Deserialize, Debug)]
-#[serde(rename_all = "snake_case")]
-enum SellOfferStatus {
-    Open,
-    Sold,
-    Removed
-}
-
-#[derive(Deserialize, Debug)]
-#[serde(rename_all = "snake_case")]
-enum CardStatus {
-    Scheme,
-    Prototype,
-    Trial,
-    Permanent,
-    Suspended,
-    Banned,
-    BannedSoon,
-    BannedVerySoon,
-    None
-}
-
-#[derive(Deserialize, Debug)]
-#[serde(rename_all = "camelCase")]
-struct Card {
-    owner: String,
-    artist: String,
-    content: String,
-    image: String,
-    full_art: bool,
-    notes: String,
-    status: CardStatus,
-    vote_pool: String,
-    voters: Vec<String>,
-    fair_enough_votes: String,
-    overpowered_votes: String,
-    underpowered_votes: String,
-    inappropriate_votes: String,
-    nerflevel: String
-}
-
-#[derive(Deserialize, Debug)]
-struct Price {
-    denom: String,
-    amount: String
-}
-
-#[derive(Deserialize, Debug)]
-struct SellOffer {
-    seller: String,
-    buyer: String,
-    card: String,
-    price: Price,
-    status: SellOfferStatus
-}
-
-#[derive(Deserialize, Debug)]
-#[serde(rename_all = "camelCase")]
-struct SellOffersResponse {
-    sell_offers_ids: Vec<String>,
-    sell_offers: Vec<SellOffer>,
-}
 
 #[function_component(App)]
 fn app() -> Html {
