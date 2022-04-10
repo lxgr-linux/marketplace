@@ -9,10 +9,43 @@ const ROOT_URL: &str = "http://0.0.0.0:1317";
 
 #[derive(Deserialize, Debug)]
 #[serde(rename_all = "snake_case")]
-enum Status {
+enum SellOfferStatus {
     Open,
     Sold,
     Removed
+}
+
+#[derive(Deserialize, Debug)]
+#[serde(rename_all = "snake_case")]
+enum CardStatus {
+    Scheme,
+    Prototype,
+    Trial,
+    Permanent,
+    Suspended,
+    Banned,
+    BannedSoon,
+    BannedVerySoon,
+    None
+}
+
+#[derive(Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+struct Card {
+    owner: String,
+    artist: String,
+    content: String,
+    image: String,
+    full_art: bool,
+    notes: String,
+    status: CardStatus,
+    vote_pool: String,
+    voters: Vec<String>,
+    fair_enough_votes: String,
+    overpowered_votes: String,
+    underpowered_votes: String,
+    inappropriate_votes: String,
+    nerflevel: String
 }
 
 #[derive(Deserialize, Debug)]
@@ -27,7 +60,7 @@ struct SellOffer {
     buyer: String,
     card: String,
     price: Price,
-    status: Status
+    status: SellOfferStatus
 }
 
 #[derive(Deserialize, Debug)]
@@ -64,7 +97,7 @@ fn app() -> Html {
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
                             <button type="button" class="btn btn-sm btn-outline-secondary">{"View card"}</button>
-                            <button type="button" class={ format!("btn btn-sm btn-outline-secondary {}", match offer.status {Status::Open => "", _ => "disabled"}) }>{"Buy"}</button>
+                            <button type="button" class={ format!("btn btn-sm btn-outline-secondary {}", match offer.status {SellOfferStatus::Open => "", _ => "disabled"}) }>{"Buy"}</button>
                         </div>
                     </div>
                 </div>
