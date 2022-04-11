@@ -22,7 +22,13 @@ pub enum CardStatus {
     None
 }
 
-#[derive(Deserialize, Debug)]
+impl Default for CardStatus {
+    fn default() -> CardStatus {
+        CardStatus::Scheme
+    }
+}
+
+#[derive(Deserialize, Debug, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct Card {
     pub owner: String,
@@ -32,7 +38,7 @@ pub struct Card {
     pub full_art: bool,
     pub notes: String,
     pub status: CardStatus,
-    pub vote_pool: String,
+    pub vote_pool: Coin,
     pub voters: Vec<String>,
     pub fair_enough_votes: String,
     pub overpowered_votes: String,
@@ -41,8 +47,8 @@ pub struct Card {
     pub nerflevel: String
 }
 
-#[derive(Deserialize, Debug)]
-pub struct Price {
+#[derive(Deserialize, Debug, Default)]
+pub struct Coin {
     pub denom: String,
     pub amount: String
 }
@@ -52,7 +58,7 @@ pub struct SellOffer {
     pub seller: String,
     pub buyer: String,
     pub card: String,
-    pub price: Price,
+    pub price: Coin,
     pub status: SellOfferStatus
 }
 
